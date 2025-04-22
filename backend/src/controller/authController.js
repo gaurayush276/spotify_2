@@ -1,7 +1,7 @@
 import { User } from "../models/userSchema.js";
 
 export const authCallback = async ( req , res) =>{
-    const { id , firstName , lastName , imageUrl } = await req.body() ; 
+    const { id , firstName , lastName , imageUrl } = await req.body ; 
     const data = await User.findOne({clerkId : _id}) ;
     if ( data ){
         alert("Already a member Try loging in") ;

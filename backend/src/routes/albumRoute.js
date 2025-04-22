@@ -1,12 +1,11 @@
 import express from 'express' ; 
+import { getAlbumById, getAllAlbums } from '../controller/albumController';
 
 const router = express.Router() ; 
 
 router
-.get('/' , (req, res)=>{
-    res.status(201).json({status :"album Router"}) ; 
-    console.log("we are here") ; 
-})
+.get('/' ,getAllAlbums ) 
+.get('/' ,getAlbumById ) 
 
 
 export default   router ; 
