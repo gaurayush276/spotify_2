@@ -1,12 +1,10 @@
 import express from 'express' ; 
+import { getAllUsers } from '../controller/userController.js';
 
 const router = express.Router() ; 
 
 router
-.get('/' , (req, res)=>{
-    res.status(201).json({status :"user Router"}) ; 
-    console.log("we are here") ; 
-})
+.get('/' , getAllUsers)
 
 
 export default   router ; 

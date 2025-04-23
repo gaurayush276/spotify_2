@@ -12,7 +12,10 @@ const messageSchema = new Schema ({
         required: true , 
    }  ,
    image :{ type : String } , 
-   
+//    to share the images 
+   imageUrl :{ type:string  },
+//    to share the songs 
+   audioUrl :{ type :String}  , 
     content : { type : String , required  : true }
 }    ,
 {timestamps: true}

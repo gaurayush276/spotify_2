@@ -1,4 +1,4 @@
-import { Album } from "../models/albumSchema"
+import { Album } from "../models/albumSchema.js"
 
 export const getAllAlbums =async (req , res)=>{
     const data =await Album.find() ;
@@ -29,7 +29,7 @@ export const getAllAlbums =async (req , res)=>{
 //   ]
 
 //  if i dont use the populate then  i need to make another api call to get the all songs after making the album api call 
-export const getAlbumById = async(res,res)=>{
+export const getAlbumById = async(req,res)=>{
     const {id} = req.params ; 
     //  ? without populate it will only show the id and with that it will get all the nesetd data in the songs  
     const data = await Album.findById(id).populate("songs") ; 

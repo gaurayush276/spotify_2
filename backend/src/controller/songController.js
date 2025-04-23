@@ -1,4 +1,4 @@
-import { Song } from "../models/songSchema"
+import { Song } from "../models/songSchema.js"
 
 export const getAllSongs =async (req, res)=>{
     // Mongoose will automatically add createdAt and updatedAt fields,
@@ -35,7 +35,7 @@ export const getFeaturedSongs =(req, res)=>{
     ])
 }
 
-//  to handle the songs on the basis of your history
+//  ! to handle the songs on the basis of your history
 export const getMadeForYouSongs =(req, res)=>{
     // $sample It randomly selects the specified number of documents from the collection.
     const song = Song.aggregate([
@@ -51,4 +51,8 @@ export const getMadeForYouSongs =(req, res)=>{
     }}
 
     ])
+}
+
+export const getTrendingSongs =(req , res)=>{
+
 }
