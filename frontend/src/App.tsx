@@ -1,19 +1,31 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import './index.css'
 
+import Home from './pages/home/Home.js';
+import {createBrowserRouter, RouterProvider}  from 'react-router-dom' ;
+import AuthCallback from './pages/authCallbackPages/AtuhCallback.js';
+import { THEMES } from './utils/Themes.js';
+import AuthProvider from './Provider/AuthProvider.js';
 function App() {
+ 
+const appRouter = createBrowserRouter([
+  {
+    path : '/' , 
+    element : <Home/>
+  },
+  {
+    path : '/auth-callback' , 
+    element : <AuthCallback/>
+  },
+])
+  
 
   return (
-    <>
-   
-      <SignedOut>
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-      </SignedIn>
-     
-    </>
+    <div data-theme = {THEMES[27] } >
+      <AuthProvider>
+       <RouterProvider router={appRouter}>
+
+       </RouterProvider>
+      </AuthProvider>
+    </div>
   )
 }
 

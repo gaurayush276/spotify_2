@@ -1,0 +1,156 @@
+
+// ! uning the colorfull comments  extensions 
+// showing  all the user except the current one 
+//  router for admin 
+//  checking the admin
+// creating the song
+//  deleting the song  
+// creating the album 
+// deleting the album
+// all songs
+//  featured song   
+// all the albums
+// statastics 
+// to check the procteted Route 
+// Authorization
+// * for daisy ui --> npm install tailwindcss@latest @tailwindcss/vite@latest daisyui@latest
+
+// & BACKEND ______ 
+
+ 
+// 📁  app.use(fileupload({...}))
+//  ?This sets up the file upload middleware using express-fileupload:
+
+// ? useTempFiles: true: Store uploaded files in a temporary file.
+
+// ?tempFileDir: path.join(__dirname, "tmp"): Files will go into a tmp folder in your project root.
+
+// ?createParentPath: true: Auto-creates folders if they don’t exist.
+
+// ?limits: Max file size = 10 MB
+
+// ^ showing  all the user except the current one 
+//  ? {clerkId :{ $ne:currentUser} }
+// ? ne stands for not equal  so only the firends wiil be shown up 
+
+// ^ router for admin 
+
+// * checking the admin
+// ?for checking the admin  we have already using the use middleware with protectedRoute adn requireAdmin  so we just have to make a call to pass by the (protectedRoute , requireAdmin ) 
+
+// * creating the song
+// ? check for the files req.file  beacsue we using the filesUpload  for the image and audio 
+// ? now extracting the  aduio file and image file from the fiels 
+//? now uploading it to the cloudinary  using  
+// const result = await cloudinary.uploader.upload(file.tempFilePath , {
+        //    resource_type: "auto"
+        // })
+        // return result.secure_url ; 
+
+// when we upload it then go for the tempfile path and get the file 
+
+// ? this will go and the song into the relative album 
+//  await song.save() ;
+//             if ( albumId){
+//                 //  ? go to the album and add the song 
+//                 await Album.findByIdAndUpdate(albumId, {
+//                     $push: { songs: song._id }});
+//             }
+
+
+//  * deleting the song  
+// ? for the deletion of the song first get the ind of the song and then remove it form the relative usign the pull unless it will delete  the whole album 
+//  await Album.findByIdAndUpdate( song.albumId ,
+//             {
+//                 $pull :{ songs : song._id}
+//             }, {new : true }
+//         )
+// ? then delete the song 
+
+//  * creating the album 
+// same as song crating  take the image and uplaod it on the cloudinary and then save it 
+
+// * deleting the album  
+//? get the id and we have to delete all the song contained by the album 
+// await Song.deleteMany({albumId : id})
+// ? then delete the album 
+// await Album.findByIdAndDelete(id) ;
+
+
+
+
+// ^ songs Controller 
+// * all songs 
+// const data = await Song.find().sort({createdAt : -1 }) ; 
+//  ? this  will provide all songs in sorted manner by the date 
+// -1 means decending
+//  *featured song  
+// ? for random songs 
+// Song.aggregate
+//  {  $sample : { size :6} ,
+// } , 
+
+// ? included documents 
+// {$project : {
+//     _id : 1 ,
+//     title :1 ,
+//     imageUrl : 1 ,
+//     audioUrl:1 ,
+//     artist : 1
+// }}
+
+// ^ Album controller 
+// * all the albums 
+// ? get the id  then populate it with song becase in the schema the ablums and song are entangled so without populate it give only id's of the songs but at some points we need to fetch the songs also when we click on the albums 
+// const data = await Album.findById(id).populate("songs") ; 
+
+// ^ statastics 
+// ?  this will  fetch all the stuff simultaneoulsy
+//   const [totalSongs, totalUsers, totalAlbums, uniqueArtists] = await Promise.all([
+//       Song.countDocuments(),
+//       Album.countDocuments(),
+//       User.countDocuments(),
+// ? now we have to get the artist so have to first attach the songs and the albums and then group them to get the unique ones and then count it
+// Song.aggregate([
+//         {
+//           $unionWith: {
+//             // where "albums" is another table
+//             coll: "albums",
+//             // no transformation needed so empty
+//             pipeline: [],
+//           },
+//         },
+//         {
+//           $group: {
+//             _id: "$artist",
+//           },
+//         },
+//         {
+// "count" is just the name of the resulting field.
+//           $count: "count",
+//         },
+//       ])
+//? example -->  console.log(res.data.count);
+
+// ^ to check the protect route 
+// if( !req.auth?.userId)   provided by clerk
+
+// ^ requireAdmin
+// const currentUser = await clerkClient.users.getUser(req.auth.userId) ;
+// const isAdmin = process.env.ADMIN_EMAIL  === currentUser.primaryEmailAddress?.emailAddress ;
+//  ? this will check the current user and then compare it with the email already set in .env
+
+
+
+// & Frontend
+
+// ^ Authorization
+// ? AuthProvider will take care of the token generated by the clerk 
+// const {getToken , userId} = useAuth() ; 
+// & add the  AuthProvider in the app level so it will check the validation of the user 
+// * in authprovider the initAuth will be called once on page loading then it will get the token 
+// ?whenever you refresh the page it will chack the auth
+//  ? const updateApiToken 
+
+// ^ for daisy ui 
+// just go in the app.tsx then  add  the data-theme = {theme} 

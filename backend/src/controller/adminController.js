@@ -17,17 +17,17 @@ async function uploadToCloudinary(file) {
     }
     catch(e) {
         console.log("error in cloudinary upload") ;
-
+ 
     }
 }
 
 export const createSong =async ( req , res) =>{
     // req.files instead of req.body  because i am using fileupload 
-         if ( !req.files || !req.files.audioFile || !req.files.imageFile){
+         if ( !req.files || !req.files?.audioFile || !req.files?.imageFile){
             alert( "Please upload all the files") ; 
             return res.status(401).json({ Message : "Please upload all the files"}) ; }
 
-            const { title ,artist , duration, albumId} = req.body; 
+            const { albumId} = req.body; 
             const audioFile = req.files.audioFile ; 
             const imageFile = req.files.imageFile ; 
 
